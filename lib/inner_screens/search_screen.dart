@@ -119,9 +119,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: MasonryGridView.count(
                     itemCount: searchKeywords.length,
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 4,
-                    crossAxisSpacing: 4,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 5,
+                    crossAxisSpacing: 10,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () async {

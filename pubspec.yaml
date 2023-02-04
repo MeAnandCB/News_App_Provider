@@ -80,7 +80,7 @@ flutter:
   assets:
     - assets/images/newspaper.png
     - assets/images/empty_image.png
-    - assets/images/bookmark.png
+    - assets/images/
     - assets/images/search.png
     - assets/images/no_news.png
     - assets/images/no_news.png

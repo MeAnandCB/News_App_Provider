@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../consts/global_colors.dart';
 import '../services/global_methods.dart';
 import '../services/utils.dart';
 
@@ -43,21 +44,19 @@ class _NewsDetailsWebViewState extends State<NewsDetailsWebView> {
               },
             ),
             iconTheme: IconThemeData(color: color),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: AppbarColor,
             elevation: 0,
             centerTitle: true,
             title: Text(
               widget.url,
-              style: TextStyle(color: color),
+              style: TextStyle(color: Colors.white),
             ),
             actions: [
               IconButton(
                 onPressed: () async {
                   await _showModalSheetFct();
                 },
-                icon: const Icon(
-                  Icons.more_horiz,
-                ),
+                icon: const Icon(Icons.share, color: Colors.white),
               ),
             ]),
         body: Column(
@@ -132,7 +131,8 @@ class _NewsDetailsWebViewState extends State<NewsDetailsWebView> {
                   title: const Text('Share'),
                   onTap: () async {
                     try {
-                      await Share.share(widget.url, subject: 'Look what I made!');
+                      await Share.share(widget.url,
+                          subject: 'Look what I made!');
                     } catch (err) {
                       GlobalMethods.errorDialog(
                           errorMessage: err.toString(), context: context);

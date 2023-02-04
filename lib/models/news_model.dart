@@ -46,7 +46,7 @@ class NewsModel with ChangeNotifier {
       description: description,
       url: json["url"] ?? "",
       urlToImage: json["urlToImage"] ??
-          "https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1",
+          "https://images.pexels.com/photos/935979/pexels-photo-935979.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       publishedAt: json["publishedAt"] ?? "",
       content: content,
       dateToShow: dateToShow,

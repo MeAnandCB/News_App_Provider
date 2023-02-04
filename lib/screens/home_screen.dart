@@ -136,14 +136,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         Flexible(
                           flex: 2,
                           child: ListView.builder(
-                              itemCount: 5,
+                              itemCount: 4,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: ((context, index) {
                                 return Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(10),
                                   child: Material(
                                     color: currentPageIndex == index
-                                        ? Colors.blue
+                                        ? AppbarColor
                                         : Theme.of(context).cardColor,
                                     child: InkWell(
                                       onTap: () {
@@ -164,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         paginationButtons(
                           text: "Next",
                           function: () {
-                            if (currentPageIndex == 4) {
+                            if (currentPageIndex == 6) {
                               return;
                             }
                             setState(() {
@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
             newsType == NewsType.topTrending
                 ? Container()
                 : Align(
-                    alignment: Alignment.topRight,
+                    alignment: Alignment.topLeft,
                     child: Material(
                       color: Theme.of(context).cardColor,
                       child: Padding(
@@ -230,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemBuilder: (ctx, index) {
                                 return ChangeNotifierProvider.value(
                                   value: snapshot.data![index],
-                                  child: const ArticlesWidget(
+                                  child: ArticlesWidget(
                                       // imageUrl: snapshot.data![index].,
                                       // dateToShow: snapshot.data![index].dateToShow,
                                       // readingTime:
@@ -291,10 +291,12 @@ class _HomeScreenState extends State<HomeScreen> {
       onPressed: () {
         function();
       },
-      child: Text(text),
+      child: Text(
+        text,
+      ),
       style: ElevatedButton.styleFrom(
           primary: AppbarColor,
-          padding: EdgeInsets.all(6),
+          padding: EdgeInsets.all(10),
           textStyle:
               const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
     );

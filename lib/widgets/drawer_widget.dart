@@ -35,20 +35,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 children: [
                   Flexible(
                     child: Image.asset(
-                      'assets/images/newspaper.png',
-                      height: 60,
-                      width: 60,
+                      'assets/images/LOGO.png',
+                      height: 100,
+                      width: 250,
                     ),
                   ),
                   const VerticalSpacing(20),
-                  Flexible(
-                    child: Text(
-                      'Find News',
-                      style: GoogleFonts.lobster(
-                          textStyle: const TextStyle(
-                              fontSize: 20, letterSpacing: 0.6)),
-                    ),
-                  ),
                 ],
               ),
             ),
