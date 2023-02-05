@@ -22,8 +22,8 @@ class NewsAPiServices {
         "pageSize": "5",
         "domains": "techcrunch.com",
         "page": page.toString(),
-        "sortBy": sortBy
-        // "apiKEY": API_KEY
+        "sortBy": sortBy,
+        "apiKEY": "6b4a93a8207a4e7a9663178b54e54ab6"
       });
       var response = await http.get(
         uri,
@@ -42,7 +42,6 @@ class NewsAPiServices {
         newsTempList.add(v);
         // log(v.toString());
         // print(data["articles"].length.toString());
-
       }
       return NewsModel.newsFromSnapshot(newsTempList);
     } catch (error) {
@@ -70,7 +69,6 @@ class NewsAPiServices {
         newsTempList.add(v);
         // log(v.toString());
         // print(data["articles"].length.toString());
-
       }
       return NewsModel.newsFromSnapshot(newsTempList);
     } catch (error) {
@@ -102,7 +100,6 @@ class NewsAPiServices {
         newsTempList.add(v);
         // log(v.toString());
         // print(data["articles"].length.toString());
-
       }
       return NewsModel.newsFromSnapshot(newsTempList);
     } catch (error) {

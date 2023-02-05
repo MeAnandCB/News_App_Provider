@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:card_swiper/card_swiper.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -16,10 +17,10 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import '../consts/global_colors.dart';
+import '../consts/list.dart';
 import '../models/news_model.dart';
 import '../providers/news_provider.dart';
-import '../providers/theme_provider.dart';
-import '../services/news_api.dart';
+
 import '../widgets/articles_widget.dart';
 import '../widgets/loading_widget.dart';
 import '../widgets/tabs.dart';
@@ -98,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 25,
                 ),
                 TabsWidget(
-                  text: 'Top trending',
+                  text: 'Breaking News',
                   color: newsType == NewsType.topTrending
                       ? Theme.of(context).cardColor
                       : Colors.transparent,
@@ -114,6 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
+
             const VerticalSpacing(10),
             newsType == NewsType.topTrending
                 ? Container()
@@ -152,10 +154,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         });
                                       },
                                       child: Center(
-                                          child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("${index + 1}"),
-                                      )),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text("${index + 1}"),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -176,6 +179,55 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+            Container(
+              height: 220,
+              child: Flexible(
+                child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 15),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 15),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                        blogContent[index]['image'],
+                                      ),
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                                bottom: 20,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * .80,
+                                    child: Text(
+                                      blogContent[index]['title'],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                )),
+                          ],
+                        ),
+                    // separatorBuilder: (context, index) => const SizedBox(
+                    //       width: 25,
+                    //     ),
+                    itemCount: blogContent.length),
+              ),
+            ),
             const VerticalSpacing(10),
             newsType == NewsType.topTrending
                 ? Container()
@@ -231,12 +283,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return ChangeNotifierProvider.value(
                                   value: snapshot.data![index],
                                   child: ArticlesWidget(
-                                      // imageUrl: snapshot.data![index].,
-                                      // dateToShow: snapshot.data![index].dateToShow,
-                                      // readingTime:
-                                      //     snapshot.data![index].readingTimeText,
-                                      // title: snapshot.data![index].title,
-                                      // url: snapshot.data![index].url,
+                                      // imageUrl: snapshot.data![index],
+                                      // // dateToShow: snapshot.data![index].dateToShow,
+                                      // // readingTime:
+                                      // //     snapshot.data![index].readingTimeText,
+                                      // // title: snapshot.data![index].title,
+                                      // // url: snapshot.data![index].url,
                                       ),
                                 );
                               }),

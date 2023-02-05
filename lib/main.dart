@@ -5,6 +5,7 @@ import 'package:news_app_flutter_course/providers/news_provider.dart';
 import 'package:provider/provider.dart';
 
 //Screens
+import 'inner_screens/Bottomnavscreen.dart';
 import 'providers/bookmarks_provider.dart';
 import 'screens/home_screen.dart';
 
@@ -62,7 +63,7 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: Styles.themeData(themeChangeProvider.getDarkTheme, context),
-          home: const HomeScreen(),
+          home: const HomePage(),
           routes: {
             NewsDetailsScreen.routeName: (ctx) => const NewsDetailsScreen(),
           },

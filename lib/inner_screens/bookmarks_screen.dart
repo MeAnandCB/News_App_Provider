@@ -64,7 +64,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                       itemBuilder: (ctx, index) {
                         return ChangeNotifierProvider.value(
                             value: snapshot.data![index],
-                            child: ArticlesWidget(
+                            child: const ArticlesWidget(
                               isBookmark: true,
                             ));
                       }),

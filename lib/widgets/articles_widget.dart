@@ -34,20 +34,6 @@ class ArticlesWidget extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                height: 60,
-                width: 60,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              Positioned(
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  height: 60,
-                  width: 60,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-              ),
-              Container(
                 color: Theme.of(context).cardColor,
                 padding: const EdgeInsets.all(10.0),
                 margin: const EdgeInsets.all(10.0),
@@ -75,18 +61,17 @@ class ArticlesWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            newsModelProvider.title,
-                            textAlign: TextAlign.justify,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: smallTextStyle,
-                          ),
-                          const VerticalSpacing(5),
+                          Text(newsModelProvider.title,
+                              textAlign: TextAlign.justify,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18)),
+                          VerticalSpacing(5),
                           Align(
-                            alignment: Alignment.topRight,
+                            alignment: Alignment.bottomRight,
                             child: Text(
-                              '🕒 ${newsModelProvider.readingTimeText}',
+                              '${newsModelProvider.readingTimeText}',
                               style: smallTextStyle,
                             ),
                           ),
@@ -106,8 +91,9 @@ class ArticlesWidget extends StatelessWidget {
                                     );
                                   },
                                   icon: const Icon(
-                                    Icons.link,
-                                    color: Colors.blue,
+                                    Icons.library_books_rounded,
+                                    color: Color.fromARGB(255, 60, 4, 106),
+                                    size: 20,
                                   ),
                                 ),
                                 Text(

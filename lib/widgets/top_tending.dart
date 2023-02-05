@@ -24,7 +24,8 @@ class TopTrendingWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
         child: InkWell(
           onTap: () {
-            Navigator.pushNamed(context, NewsDetailsScreen.routeName, arguments: newsModelProvider.publishedAt);
+            Navigator.pushNamed(context, NewsDetailsScreen.routeName,
+                arguments: newsModelProvider.publishedAt);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +56,7 @@ class TopTrendingWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           PageTransition(
-                              type: PageTransitionType.rightToLeft,
+                              type: PageTransitionType.topToBottom,
                               child: NewsDetailsWebView(
                                 url: newsModelProvider.url,
                               ),
