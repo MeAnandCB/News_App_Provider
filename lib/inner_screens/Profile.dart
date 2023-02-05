@@ -80,21 +80,21 @@ class ProfilePage extends StatelessWidget {
                 child: Expanded(
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Container(
-                          height: 150,
-                          width: 170,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    'https://www.pinkvilla.com/imageresize/roshan-mathew-anurag-kashyap.jpg?width=752&t=pvorg'),
-                                fit: BoxFit.cover),
-                            borderRadius: BorderRadius.circular(22),
-                            color: Color.fromARGB(255, 21, 20, 17),
-                            border: Border.all(
-                                color: Color.fromARGB(255, 228, 225, 225),
-                                width: 4),
+                      Image.asset(
+                        'assets/images/LOGO.png',
+                        height: 100,
+                        width: 250,
+                      ),
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              style: TextStyle(height: 1.5),
+                              textAlign: TextAlign.justify,
+                              'Stay informed with the latest news from around the world with our sleek and user-friendly news app. Get breaking news alerts and read articles from top sources across politics, business, sports, entertainment and more. Stay up to date on the go with offline reading and personalized news feeds tailored to your interests.',
+                            ),
                           ),
                         ),
                       ),
@@ -153,64 +153,12 @@ class ProfilePage extends StatelessWidget {
                       SizedBox(
                         height: 30,
                       ),
-                      Container(
-                        height: 45,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(255, 60, 4, 106),
-                              Color.fromARGB(255, 152, 89, 247)
-                            ],
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                'Edit Profile',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
               ),
               SizedBox(
                 height: 50,
-              ),
-              Expanded(
-                child: Container(
-                  color: Color.fromARGB(255, 228, 227, 225),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView(
-                      children: [
-                        ListTile(
-                          leading: Icon(Icons.settings),
-                          title: Text('Settings'),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.notification_important),
-                          title: Text('Notifications'),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.book),
-                          title: Text('Change Language'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ),
             ],
           ),

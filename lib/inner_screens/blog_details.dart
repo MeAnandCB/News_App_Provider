@@ -15,6 +15,8 @@ import '../services/utils.dart';
 
 class NewsDetailsScreen extends StatefulWidget {
   static const routeName = "/NewsDetailsScreen";
+  static int number = 1;
+
   const NewsDetailsScreen({Key? key}) : super(key: key);
 
   @override
@@ -151,7 +153,8 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                       GestureDetector(
                         onTap: () async {
                           if (isInBookmark) {
-                            await bookmarksProvider.deleteBookmark(key:currBookmark[0].bookmarkKey );
+                            await bookmarksProvider.deleteBookmark(
+                                key: currBookmark[0].bookmarkKey);
                           } else {
                             await bookmarksProvider.addToBookmark(
                               newsModel: currentNews,
@@ -215,6 +218,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 ),
               ],
             ),
+          ),
+          SizedBox(
+            height: 20,
           ),
         ],
       ),

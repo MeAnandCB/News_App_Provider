@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:card_swiper/card_swiper.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -15,9 +16,9 @@ import 'package:news_app_flutter_course/widgets/empty_screen.dart';
 import 'package:news_app_flutter_course/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../consts/global_colors.dart';
-import '../consts/list.dart';
 import '../models/news_model.dart';
 import '../providers/news_provider.dart';
 
@@ -119,115 +120,69 @@ class _HomeScreenState extends State<HomeScreen> {
             const VerticalSpacing(10),
             newsType == NewsType.topTrending
                 ? Container()
-                : SizedBox(
-                    height: kBottomNavigationBarHeight,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        paginationButtons(
-                          text: "Prev",
-                          function: () {
-                            if (currentPageIndex == 0) {
-                              return;
-                            }
-                            setState(() {
-                              currentPageIndex -= 1;
-                            });
-                          },
-                        ),
-                        Flexible(
-                          flex: 2,
-                          child: ListView.builder(
-                              itemCount: 4,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: ((context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Material(
-                                    color: currentPageIndex == index
-                                        ? AppbarColor
-                                        : Theme.of(context).cardColor,
-                                    child: InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          currentPageIndex = index;
-                                        });
-                                      },
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text("${index + 1}"),
+                : Container(
+                    height: 220,
+                    child: Flexible(
+                      child: ListView.builder(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 15),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => InkWell(
+                                onTap: () async {
+                                  if (!await launchUrl(
+                                      Uri.parse(blogContent[index]['link']))) {
+                                    throw 'Could not launch ${blogContent[index]['link']}}';
+                                  }
+                                },
+                                child: Stack(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 15),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                blogContent[index]['image'],
+                                              ),
+                                              fit: BoxFit.cover),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              })),
-                        ),
-                        paginationButtons(
-                          text: "Next",
-                          function: () {
-                            if (currentPageIndex == 6) {
-                              return;
-                            }
-                            setState(() {
-                              currentPageIndex += 1;
-                            });
-                            // print('$currentPageIndex index');
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-            Container(
-              height: 220,
-              child: Flexible(
-                child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 15),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => Stack(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 15),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        blogContent[index]['image'],
-                                      ),
-                                      fit: BoxFit.cover),
+                                    Positioned(
+                                        bottom: 20,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .80,
+                                            child: Text(
+                                              blogContent[index]['title'],
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        )),
+                                  ],
                                 ),
                               ),
-                            ),
-                            Positioned(
-                                bottom: 20,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * .80,
-                                    child: Text(
-                                      blogContent[index]['title'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                )),
-                          ],
-                        ),
-                    // separatorBuilder: (context, index) => const SizedBox(
-                    //       width: 25,
-                    //     ),
-                    itemCount: blogContent.length),
-              ),
-            ),
+                          // separatorBuilder: (context, index) => const SizedBox(
+                          //       width: 25,
+                          //     ),
+                          itemCount: blogContent.length),
+                    ),
+                  ),
+
             const VerticalSpacing(10),
             newsType == NewsType.topTrending
                 ? Container()
@@ -249,93 +204,140 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
             FutureBuilder<List<NewsModel>>(
-                future: newsType == NewsType.topTrending
-                    ? newsProvider.fetchTopHeadlines()
-                    : newsProvider.fetchAllNews(
-                        pageIndex: currentPageIndex + 1, sortBy: sortBy),
-                builder: ((context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return newsType == NewsType.allNews
-                        ? LoadingWidget(newsType: newsType)
-                        : Expanded(
-                            child: LoadingWidget(newsType: newsType),
-                          );
-                  } else if (snapshot.hasError) {
-                    return Expanded(
-                      child: EmptyNewsWidget(
-                        text: "an error occured ${snapshot.error}",
-                        imagePath: 'assets/images/no_news.png',
-                      ),
-                    );
-                  } else if (snapshot.data == null) {
-                    return const Expanded(
-                      child: EmptyNewsWidget(
-                        text: "No news found",
-                        imagePath: 'assets/images/no_news.png',
-                      ),
-                    );
-                  }
+              future: newsType == NewsType.topTrending
+                  ? newsProvider.fetchTopHeadlines()
+                  : newsProvider.fetchAllNews(
+                      pageIndex: currentPageIndex + 1, sortBy: sortBy),
+              builder: ((context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return newsType == NewsType.allNews
-                      ? Expanded(
-                          child: ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (ctx, index) {
-                                return ChangeNotifierProvider.value(
-                                  value: snapshot.data![index],
-                                  child: ArticlesWidget(
-                                      // imageUrl: snapshot.data![index],
-                                      // // dateToShow: snapshot.data![index].dateToShow,
-                                      // // readingTime:
-                                      // //     snapshot.data![index].readingTimeText,
-                                      // // title: snapshot.data![index].title,
-                                      // // url: snapshot.data![index].url,
-                                      ),
-                                );
-                              }),
-                        )
-                      : SizedBox(
-                          height: size.height * 0.6,
-                          child: Swiper(
-                            autoplayDelay: 8000,
-                            autoplay: true,
-                            itemWidth: size.width * 0.9,
-                            layout: SwiperLayout.STACK,
-                            viewportFraction: 0.9,
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
+                      ? LoadingWidget(newsType: newsType)
+                      : Expanded(
+                          child: LoadingWidget(newsType: newsType),
+                        );
+                } else if (snapshot.hasError) {
+                  return Expanded(
+                    child: EmptyNewsWidget(
+                      text: "an error occured ${snapshot.error}",
+                      imagePath: 'assets/images/no_news.png',
+                    ),
+                  );
+                } else if (snapshot.data == null) {
+                  return const Expanded(
+                    child: EmptyNewsWidget(
+                      text: "No news found",
+                      imagePath: 'assets/images/no_news.png',
+                    ),
+                  );
+                }
+                return newsType == NewsType.allNews
+                    ? Expanded(
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (ctx, index) {
                               return ChangeNotifierProvider.value(
                                 value: snapshot.data![index],
-                                child: const TopTrendingWidget(
-                                    // url: snapshot.data![index].url,
+                                child: ArticlesWidget(
+                                    // imageUrl: snapshot.data![index],
+                                    // // dateToShow: snapshot.data![index].dateToShow,
+                                    // // readingTime:
+                                    // //     snapshot.data![index].readingTimeText,
+                                    // // title: snapshot.data![index].title,
+                                    // // url: snapshot.data![index].url,
                                     ),
                               );
-                            },
-                          ),
-                        );
-                })),
+                            }),
+                      )
+                    : SizedBox(
+                        height: size.height * 0.6,
+                        child: Swiper(
+                          autoplayDelay: 8000,
+                          autoplay: true,
+                          itemWidth: size.width * 0.9,
+                          layout: SwiperLayout.STACK,
+                          viewportFraction: 1,
+                          itemCount: 7,
+                          itemBuilder: (context, index) {
+                            return ChangeNotifierProvider.value(
+                              value: snapshot.data![index],
+                              child: const TopTrendingWidget(
+                                  // url: snapshot.data![index].url,
+                                  ),
+                            );
+                          },
+                        ),
+                      );
+              }),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  paginationButtons(
+                    text: "Prev",
+                    function: () {
+                      if (currentPageIndex == 0) {
+                        return;
+                      }
+                      setState(() {
+                        currentPageIndex -= 1;
+                      });
+                    },
+                  ),
+                  // Flexible(
+                  //   flex: 2,
+                  //   child: ListView.builder(
+                  //       itemCount: 3,
+                  //       scrollDirection: Axis.horizontal,
+                  //       itemBuilder: ((context, index) {
+                  //         return Padding(
+                  //           padding: const EdgeInsets.all(10),
+                  //           child: Material(
+                  //             color: currentPageIndex == index
+                  //                 ? AppbarColor
+                  //                 : Theme.of(context).cardColor,
+                  //             child: InkWell(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   currentPageIndex = index;
+                  //                 });
+                  //               },
+                  //               child: Center(
+                  //                 child: Padding(
+                  //                   padding: const EdgeInsets.all(8.0),
+                  //                   child: Text("${index + 1}"),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         );
+                  //       })),
+                  // ),
+                  paginationButtons(
+                    text: "Next",
+                    function: () {
+                      if (currentPageIndex == 4) {
+                        return;
+                      }
+                      setState(() {
+                        if (currentPageIndex < 2) {
+                          currentPageIndex += 1;
+                        } else {
+                          currentPageIndex = 0;
+                        }
+                      });
+                      // print('$currentPageIndex index');
+                    },
+                  ),
+                ],
+              ),
+            ),
             //  LoadingWidget(newsType: newsType),
           ]),
         ),
       ),
     );
-  }
-
-  List<DropdownMenuItem<String>> get dropDownItems {
-    List<DropdownMenuItem<String>> menuItem = [
-      DropdownMenuItem(
-        value: SortByEnum.relevancy.name,
-        child: Text(SortByEnum.relevancy.name),
-      ),
-      DropdownMenuItem(
-        value: SortByEnum.publishedAt.name,
-        child: Text(SortByEnum.publishedAt.name),
-      ),
-      DropdownMenuItem(
-        value: SortByEnum.popularity.name,
-        child: Text(SortByEnum.popularity.name),
-      ),
-    ];
-    return menuItem;
   }
 
   Widget paginationButtons({required Function function, required String text}) {
@@ -347,8 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
         text,
       ),
       style: ElevatedButton.styleFrom(
-          primary: AppbarColor,
-          padding: EdgeInsets.all(10),
+          backgroundColor: AppbarColor,
           textStyle:
               const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
     );

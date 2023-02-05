@@ -117,11 +117,14 @@ class _SearchScreenState extends State<SearchScreen> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: MasonryGridView.count(
+                  child: GridView.builder(
                     itemCount: searchKeywords.length,
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 5,
-                    crossAxisSpacing: 10,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20,
+                            childAspectRatio: 2),
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () async {
@@ -164,7 +167,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     itemBuilder: (ctx, index) {
                       return ChangeNotifierProvider.value(
                         value: searchList![index],
-                        child: const ArticlesWidget(),
+                        child: ArticlesWidget(),
                       );
                     }),
               ),

@@ -12,9 +12,10 @@ import '../consts/styles.dart';
 import '../inner_screens/blog_details.dart';
 
 class ArticlesWidget extends StatelessWidget {
-  const ArticlesWidget({Key? key, this.isBookmark = false}) : super(key: key);
+  ArticlesWidget({Key? key, this.isBookmark = false}) : super(key: key);
   // final String imageUrl, title, url, dateToShow, readingTime;
   final bool isBookmark;
+  final int number = NewsDetailsScreen.number;
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
